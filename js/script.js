@@ -4,6 +4,12 @@ $(document).one("pageinit", function() {
   // Add handler
   $("#submitAdd").on("tap", addRun);
 
+  // Edit handler
+  $("#submitEdit").on("tap", editRun);
+
+  // Set Current handler
+  $("#stats").on("tap", "#editLink", setCurrent);
+
   /*
    * Show all runs
    */
@@ -18,7 +24,11 @@ $(document).one("pageinit", function() {
             runs[i]["date"] +
             "<br><strong>Distance: </strong>" +
             runs[i]["miles"] +
-            ' miles<div class="controls"><a href="#edit">Edit</a> <a href="#delete">Delete</a></div></li>'
+            ' miles<div class="controls"><a href="#edit" id="editLink" data-miles="' +
+            runs[i]["miles"] +
+            '" data-date="' +
+            runs[i]["date"] +
+            '">Edit</a> <a href="#delete">Delete</a></div></li>'
         );
       }
       $("#home").bind("pageinit", function() {
@@ -58,6 +68,48 @@ $(document).one("pageinit", function() {
   }
 
   /*
+   * Edit run
+   */
+  function editRun() {
+    // get current data
+    currentMiles = localStorage.getItem("currentMiles");
+    currentDate = localStorage.getItem("currentDate");
+
+    var runs = getRunsObject();
+
+    // loop through runs
+    for (var i = 0; i < runs.length; i++) {
+      if (runs[i].miles == currentMiles && runs[i].date == currentDate) {
+        runs.splice(i, 1);
+      }
+      localStorage.setItem("runs", JSON.stringify(runs));
+    }
+
+    // Get form values
+    var miles = $("#editMiles").val();
+    var date = $("#editDate").val();
+
+    // Create 'run' object
+    var update_run = {
+      date: date,
+      miles: parseFloat(miles)
+    };
+
+    // add run to runs array
+    runs.push(update_run);
+
+    alert("Run Updated");
+
+    // set stringfy object to localstorage
+    localStorage.setItem("runs", JSON.stringify(runs));
+
+    // redirect
+    window.location.href = "index.html";
+
+    return false;
+  }
+
+  /*
    * Get Runs object
    */
   function getRunsObject() {
@@ -76,5 +128,18 @@ $(document).one("pageinit", function() {
     return runs.sort(function(a, b) {
       return new Date(b.date) - new Date(a.date);
     });
+  }
+
+  /*
+   * Set current clicked miles and date
+   */
+  function setCurrent() {
+    // set localstorage itms
+    localStorage.setItem("currentMiles", $(this).data("miles"));
+    localStorage.setItem("currentDate", $(this).data("date"));
+
+    // inset for fields
+    $("#editMiles").val(localStorage.getItem("currentMiles"));
+    $("#editDate").val(localStorage.getItem("currentDate"));
   }
 });
