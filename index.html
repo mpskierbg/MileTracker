@@ -8,6 +8,19 @@
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
   <link rel="stylesheet" href="css/main.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+  <script>
+    $(function () {
+      $('.date').each(function () {
+        $(this).datepicker();
+      });
+    })
+  </script>
+  <script src="js/script.js"></script>
+
   <title>MileTracker</title>
 
 
@@ -62,7 +75,7 @@
       </ul>
     </div>
     <div data-role="content">
-      <h3>Add Runn</h3>
+      <h3>Add Run</h3>
       <form id="addForm">
         <label for="addMiles">Enter Miles: </label>
         <input type="text" id="addMiles">
@@ -78,17 +91,7 @@
     </footer>
   </div>
 
-  <script src="js/script.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
-  <script>
-    $(function () {
-      $('.date').each(function () {
-        $(this).datepicker();
-      });
-    })
-  </script>
+
 </body>
 
 </html>
