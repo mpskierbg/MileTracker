@@ -7,8 +7,14 @@ $(document).one("pageinit", function() {
   // Edit handler
   $("#submitEdit").on("tap", editRun);
 
+  // Delete handler
+  $("#stats").on("tap", "#deleteLink", deleteRun);
+
   // Set Current handler
   $("#stats").on("tap", "#editLink", setCurrent);
+
+  // Clear handler
+  $("#clearRuns").on("tap", clearRuns);
 
   /*
    * Show all runs
@@ -28,7 +34,11 @@ $(document).one("pageinit", function() {
             runs[i]["miles"] +
             '" data-date="' +
             runs[i]["date"] +
-            '">Edit</a> <a href="#delete">Delete</a></div></li>'
+            '">Edit</a> | <a href="#delete" id="deleteLink" data-miles="' +
+            runs[i]["miles"] +
+            '" data-date="' +
+            runs[i]["date"] +
+            '" onClick="return confirm(\'Are you sure?\')">Delete</a></div></li>'
         );
       }
       $("#home").bind("pageinit", function() {
@@ -102,6 +112,44 @@ $(document).one("pageinit", function() {
 
     // set stringfy object to localstorage
     localStorage.setItem("runs", JSON.stringify(runs));
+
+    // redirect
+    window.location.href = "index.html";
+
+    return false;
+  }
+
+  /*
+   * clear runs
+   */
+  function clearRuns() {
+    localStorage.removeItem("runs");
+    $("#stats").html("<p>You have no logged runs</p>");
+  }
+
+  /*
+   * delete run
+   */
+  function deleteRun() {
+    // set localstorage itms
+    localStorage.setItem("currentMiles", $(this).data("miles"));
+    localStorage.setItem("currentDate", $(this).data("date"));
+
+    // get current data
+    currentMiles = localStorage.getItem("currentMiles");
+    currentDate = localStorage.getItem("currentDate");
+
+    var runs = getRunsObject();
+
+    // loop through runs
+    for (var i = 0; i < runs.length; i++) {
+      if (runs[i].miles == currentMiles && runs[i].date == currentDate) {
+        runs.splice(i, 1);
+      }
+      localStorage.setItem("runs", JSON.stringify(runs));
+    }
+
+    alert("Run Deleted");
 
     // redirect
     window.location.href = "index.html";
