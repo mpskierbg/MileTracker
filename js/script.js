@@ -44,6 +44,8 @@ $(document).one("pageinit", function() {
       $("#home").bind("pageinit", function() {
         $("#stats").listview("refresh");
       });
+    } else {
+      $("#stats").html("<p>You have no logged runs</p>");
     }
   }
 
